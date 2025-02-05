@@ -1,154 +1,712 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5801610924124039"
-        crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>PXLNOVA</title>
-    <link rel="stylesheet" href="/assets/styles.css">
-    <link rel="icon" href="/assets/w.png" type="image/x-icon">
+    <title>Comet Browser</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        #redirectButton, #aiButton {
-            background-color: #6a1b9a; 
-            color: white; 
-            padding: 15px 30px; 
-            font-size: 18px; 
-            border: none; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            transition: background-color 0.3s ease; 
-            margin: 10px 0;
+        :root {
+            --primary-color: #6200ff;
+            --primary-glow: #4c02f7;
+            --secondary-color: #8502f7;
+            --text-color: #ffffff;
+            --text-secondary: #9aa0a6;
+            --background: #0a0a0a;
+            --card-bg: rgba(32, 33, 36, 0.8);
+            --hover-bg: rgba(138, 180, 248, 0.08);
+            --border-color: rgba(95, 99, 104, 0.3);
+            --shadow-color: rgba(98, 0, 255, 0.1);
         }
 
-        #redirectButton:hover, #aiButton:hover {
-            background-color: #9c4dcc; 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
         }
 
-        /* Position the settings icon in the top-right corner */
-        #settingsIcon {
+        body {
+            background: var(--background);
+            color: var(--text-color);
+            min-height: 100vh);
+        }
+
+        /* Stars Background Animation */
+        .stars {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                        radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                        radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            animation: twinkle 7s linear infinite;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        @keyframes twinkle {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100px); }
+        }
+
+        /* Navigation */
+        nav {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo:hover {
+            transform: translateY(-2px) scale(1.05);
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--text-color);
+            transform: translateY(-2px);
+        }
+
+        .nav-link::after {
+            content: '';
             position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
+            width: 100%;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
         }
 
-        /* Donation container styles */
-        #donationContainer {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            z-index: 1000;
+        .nav-link:hover::after {
+            transform: scaleX(1);
         }
 
-        #donationContainer h2 {
-            color: #4caf50;
-            margin-bottom: 10px;
-        }
-
-        #donationContainer p {
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .donationButton {
-            background-color: #4caf50;
+        .nav-cta {
+            background: var(--primary-color);
             color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin: 5px;
-            transition: background-color 0.3s ease;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
 
-        .donationButton:hover {
-            background-color: #45a049;
+        .nav-cta:hover {
+            background: var(--primary-glow);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 5px 15px var(--shadow-color),
+                       0 0 20px var(--primary-glow);
         }
 
-        #overlay {
-            position: fixed;
+        .nav-cta::before {
+            content: '';
+            position: absolute;
             top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .nav-cta:hover::before {
+            left: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, var(--primary-glow) 0%, transparent 70%);
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-content:hover {
+            transform: translateY(-10px);
+        }
+
+        .hero-logo {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            animation: float 6s ease-in-out infinite;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-logo:hover {
+            transform: scale(1.1) rotate(15deg);
+            color: var(--primary-glow);
+            filter: drop-shadow(0 0 20px var(--primary-glow));
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px var(--primary-glow);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero h1:hover {
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px var(--primary-glow);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero p:hover {
+            color: var(--text-color);
+            transform: scale(1.05);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .button {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .button:hover::before {
+            left: 100%;
+        }
+
+        .button-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .button-primary:hover {
+            background: var(--primary-glow);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 5px 15px var(--shadow-color),
+                       0 0 20px var(--primary-glow);
+        }
+
+        .button-secondary {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .button-secondary:hover {
+            background: rgba(32, 33, 36, 0.95);
+            transform: translateY(-4px) scale(1.05);
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 2rem;
+            background: rgba(10, 10, 10, 0.5);
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -100%;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-            z-index: 999;
+            background: linear-gradient(
+                180deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .feature-card:hover::before {
+            top: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 30px var(--shadow-color),
+                       0 0 20px var(--primary-glow);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(10deg);
+            color: var(--primary-glow);
+            filter: drop-shadow(0 0 10px var(--primary-glow));
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-card:hover h3 {
+            transform: translateX(10px);
+            color: var(--primary-color);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-card:hover p {
+            color: var(--text-color);
+        }
+
+        /* Performance Section */
+        .performance {
+            padding: 8rem 2rem;
+            background: linear-gradient(to bottom, transparent, rgba(98, 0, 255, 0.1));
+        }
+
+        .performance-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .performance-content {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .performance-content:hover {
+            transform: translateY(-10px);
+        }
+
+        .performance-content h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .performance-content:hover h2 {
+            letter-spacing: 1px;
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .performance-content p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .performance-content:hover p {
+            color: var(--text-color);
+        }
+
+        .performance-stat {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .performance-stat:hover {
+            transform: translateX(10px);
+        }
+
+        .performance-stat i {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .performance-stat:hover i {
+            transform: scale(1.2) rotate(15deg);
+            filter: drop-shadow(0 0 10px var(--primary-glow));
+        }
+
+        .performance-image {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .performance-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            z-index: 1;
+            transition: 0.5s;
+        }
+
+        .performance-image:hover::before {
+            left: 100%;
+        }
+
+        .performance-image:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4),
+                       0 0 30px var(--primary-glow);
+        }
+
+        .performance-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .performance-image:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-color);
+            font-weight: 600;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .footer-logo:hover {
+            transform: translateY(-4px) scale(1.05);
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .footer-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .footer-link:hover {
+            color: var(--text-color);
+            transform: translateY(-2px);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .performance-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .performance-stat {
+                justify-content: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-    <main class="main-container">
-        <header>
-            <img src="/assets/w.png" alt="pxlnova" class="logo">
-            <h1>pxlnova!</h1>
-            <p class="subtext">A modern web search engine!</p>
-        </header>
+    <div class="stars"></div>
 
-        <button id="startButton" aria-label="Start Browsing">Start Browsing</button>
-        <button id="redirectButton" aria-label="Go to Apps Page">Apps</button>
-        <button id="aiButton" aria-label="Go to AI Page">AI</button>
-
-        <!-- Settings icon in the top-right corner -->
-        <img id="settingsIcon" src="https://cdn.discordapp.com/attachments/1308061405244817448/1314352186196627517/image.png?ex=6753755c&is=675223dc&hm=2dbac9613379f04b6393a74a4d426d839c973e678c07e2c9640559c4d792e266&" alt="Settings Icon">
-
-        <!-- Donation Container -->
-        <div id="overlay"></div>
-        <div id="donationContainer">
-            <h2>CashApp: $DicksonDD</h2>
-            <p>Hello champ, can you donate me 🙏</p>
-            <button class="donationButton" id="donateButton">Donate</button>
-            <button class="donationButton" id="noButton">Sorry No</button>
+    <nav>
+        <a href="#" class="nav-logo">
+            <i data-lucide="comet" style="width: 24px; height: 24px;"></i>
+            <span>Comet</span>
+        </a>
+        <div class="nav-links">
+            <a href="#" class="nav-link">Features</a>
+            <a href="#" class="nav-link">Performance</a>
+            <a href="#" class="nav-link">About</a>
+            <a href="dash.html" class="nav-cta">Get Started</a>
         </div>
-    </main>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <i data-lucide="comet" class="hero-logo" style="width: 80px; height: 80px;"></i>
+            <h1>The Future of Browsing</h1>
+            <p>Experience lightning-fast speeds, uncompromising security, and a beautiful interface designed for the modern web.</p>
+            <div class="hero-buttons">
+                <a href="dash.html" class="button button-primary">Get Started</a>
+                <a href="dash.html?guest=true" class="button button-secondary">Try as Guest</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <i data-lucide="zap" class="feature-icon" style="width: 48px; height: 48px;"></i>
+                <h3>Lightning Fast</h3>
+                <p>Experience instant page loads and smooth browsing with our cutting-edge engine optimized for speed.</p>
+            </div>
+            <div class="feature-card">
+                <i data-lucide="shield" class="feature-icon" style="width: 48px; height: 48px;"></i>
+                <h3>Secure by Default</h3>
+                <p>Advanced protection against tracking, malware, and privacy threats keeps you safe online.</p>
+            </div>
+            <div class="feature-card">
+                <i data-lucide="sparkles" class="feature-icon" style="width: 48px; height: 48px;"></i>
+                <h3>Beautiful Interface</h3>
+                <p>A modern, intuitive design that makes browsing a pleasure, with customizable themes and layouts.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="performance">
+        <div class="performance-container">
+            <div class="performance-content">
+                <h2>Blazing Fast Performance</h2>
+                <p>Comet is built from the ground up with performance in mind. Experience web browsing that's up to 2x faster than traditional browsers.</p>
+                <div class="performance-stat">
+                    <i data-lucide="gauge" style="width: 24px; height: 24px; color: var(--primary-color);"></i>
+                    <span>Lightning-fast page loads</span>
+                </div>
+                <div class="performance-stat">
+                    <i data-lucide="globe" style="width: 24px; height: 24px; color: var(--primary-color);"></i>
+                    <span>Optimized for modern web</span>
+                </div>
+            </div>
+            <div class="performance-image">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" 
+                     alt="Performance Dashboard">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i data-lucide="comet" style="width: 24px; height: 24px;"></i>
+                <span>Comet Browser</span>
+            </div>
+            <div class="footer-links">
+                <a href="#" class="footer-link">About</a>
+                <a href="#" class="footer-link">Features</a>
+                <a href="#" class="footer-link">Download</a>
+                <a href="#" class="footer-link">Contact</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        document.getElementById('startButton').addEventListener('click', function() {
-            window.location.href = '/web/index.html';
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observe elements
+        document.querySelectorAll('.feature-card, .performance-content, .performance-image').forEach(el => {
+            observer.observe(el);
         });
-
-        document.getElementById('redirectButton').addEventListener('click', function() {
-            window.location.href = '/games.html';
-        });
-
-        document.getElementById('aiButton').addEventListener('click', function() {
-            window.location.href = '/pxlnova.html';
-        });
-
-        document.getElementById('settingsIcon').addEventListener('click', function() {
-            window.location.href = '/setting.html';
-        });
-
-        // Handle donation container buttons
-        document.getElementById('donateButton').addEventListener('click', function() {
-            // Redirect to CashApp page
-            window.location.href = 'https://cash.app/$DicksonDD';
-        });
-
-        document.getElementById('noButton').addEventListener('click', function() {
-            // Hide the donation container and overlay
-            document.getElementById('donationContainer').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-
-            // Save a flag in localStorage to prevent showing it again
-            localStorage.setItem('hideDonation', 'true');
-        });
-
-        // Check if the donation container should be shown
-        if (localStorage.getItem('hideDonation') === 'true') {
-            document.getElementById('donationContainer').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        }
     </script>
 </body>
 </html>
